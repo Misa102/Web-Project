@@ -1,0 +1,52 @@
+{# contrôleur intermédiaire (niveau 2) spécifique au site de vente #}
+{% extends 'Layouts/layout.html.twig' %}
+
+{# indiquer le titre par défaut de l'onglet avec la valeur "Vente" #}
+{% block title %} Vente{% endblock %}
+
+{# inclut un fichier css #}
+{% block css %}
+    {{ parent() }}
+    <link rel = "stylesheet" media="screen" type="text/css" title="default" href="{{ asset('css/default.css') }}"/>
+{% endblock %}
+
+{# inclut deux fichiers js, des inclusions faites ds le template racine #}
+{% block javascript %}
+{{ parent() }}
+<script type="text/javascript" src="{{ asset('js/global.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/macros.js') }}"></script>
+{% endblock %}
+
+{# précise l'architecture du bloc body, ya des ajouts de code HTML et des créations de nouveaux blocs à inférieur du bloc body, ces nouveaux blocs pourront etre redéfinis ds les vues #}
+{% block body %}
+    {# affiche les messages flash de type "info" #}
+    <div id="flash">
+        {%include 'Layouts/flash.html.twig' %}
+    </div>
+
+    {# inclut un contrôleur menu, la méthode menu se met dans le contrôeur PageAccueil #}
+    <div id="menu">
+        {{ render(controller('App\\Controller\\Sandbox\\AccueilController::menuAction')) }}
+    </div>
+
+    {#une division inclut un template repesentant le haut de la page  #}
+    <div id="header">
+        {% include 'Layouts/header.html.twig' %}
+    </div>
+
+    {# une division qui définit un titre h1 contenant un bloc avec comme valeur par défaut Site de vente"#}
+    <div id="titre">
+        <h1>{% block titre_principal %}Site de vente{% endblock %}</h1>
+    </div>
+
+    {# une division contient un bloc qui inclura le contenu des vues. #}
+    <div id="vue">
+        {% block vue %}{% endblock %}
+    </div>
+
+    {# une division inclut un template representant le bas de la page #}
+    <div id="footer">
+        {% include 'Layouts/footer.html.twig' %}
+    </div>
+
+{% endblock %}

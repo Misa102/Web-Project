@@ -1,0 +1,36 @@
+{% extends 'Layouts/layout_vente.html.twig' %}
+
+{% block title %}{{ parent() }} : produits{% endblock %}
+
+{% block titre_principal %}{{ parent() }} : liste des produits{% endblock %}
+
+{% block vue %}
+    <p><a href="{{ path('produit_add') }}"> Ajouter un produit </a></p>
+
+    <p>
+        {% if page == 0 %}
+            affichage de toutes les pages
+        {% else %}
+            affichage de la page {{ page }}
+        {% endif %}
+    </p>
+
+    {% if produits|length == 0 %}
+        <p>Aucun produit dans la base de données</p>
+    {% else %}
+        <table>
+            <tr><th>dénomination</th><th></th></tr>
+            {% for produit in produits %}
+                {% set urlView = path('produit_view', {id: produit.id}) %}
+                {% set urlDelete = path('produit_delete', {'id': produit.id}) %}
+                <tr>
+                    <td><a href = "{{ urlView }}">{{ produit.denomination }}</a></td>
+                    <td><a href = "{{ urlDelete }}">Delete</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+
+    {% endif %}
+
+    {{ dump(produits) }}
+{% endblock %}

@@ -1,0 +1,9 @@
+{# Affichage des messages flash #}
+{% if app.session.flashBag.has('info') %} {# l'objet flashBag a une méthode qui indique s'il y a des messages à disposition #}
+    <strong>Messages d'information</strong>
+    <ul>
+        {% for msg in app.session.flashBag.get('info') %}
+            <li>{{ msg }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}

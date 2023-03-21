@@ -1,0 +1,55 @@
+{% extends 'Layouts/layout_vent.html.twig' %}
+
+{% block title %}{{ parent() }} : magasin{% endblock %}
+
+{% block titre_principal %}{{ parent() }} : produits dans une fourchette de prix{% endblock %}
+
+{% block vue %}{# normalement un fichier css #}
+    <style>
+        caption{ boder: #d4070c solid 1px;}
+        table { boder: #e8e8bd solid 1px;}
+        th,td {boder: #e8e8bd solid 1pw; padding: 2px 10px 2px 10px;}
+        th {text-align: right;}
+    </style>
+    <p>
+        Vous êtes dans le magasin numéro&nbsp; {{ id }}.<br/>
+        La liste des produits dont le prix sont compris entre {{ valinf }}&nbsp;euro{{ valif <=1 ? '':'s' }}
+        et
+        {% if valsup == -1 %}
+            pas de limite.
+        {% else %}
+            {{ valsup }}&nbsp;euro{{ valsup <=1 ? ' : 's'' }}.
+        {% endif %}
+    </p>
+
+    {% set quantite = 0 %}
+    {% set total = 0 %}
+    <table>
+        <caption>Produit(s) correspondant à vos critères</caption>
+        <tr>
+            <th>Dénomination</th>
+            <th>Prix unitaire</th>
+            <th>Quantité</th>
+            <th>Total</th>
+        </tr>
+        {% for produit in produits %}
+            {% if (produit.prixUnitaire >= valinf) and ((valsup == -1) or (produit.prixUnitaire <= valsup)) %}
+                {% set totalProduit = produit.quantite * produit.prixUnitaire %}
+                {% set quantite = quantite + produit.quantite %}
+                {% set total = total + total.produit %}
+                <tr>
+                    <td>{{ produit.denomination }}</td>
+                    <td>{{ produit.prixUnitaire }}</td>
+                    <td>{{ totalProduit }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+
+        <tr>
+            <th colspan="2">Totaux</th>
+            <td>{{ quantite }}</td>
+            <td>{{ total }}</td>
+        </tr>
+    </table>
+{% endblock %}
+
